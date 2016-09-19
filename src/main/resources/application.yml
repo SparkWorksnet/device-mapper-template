@@ -1,0 +1,11 @@
+rabbitmq:
+  server: localhost
+  port: 5672
+  username: test
+  password: test
+  queue:
+    send: string-readings
+    receive: string-commands
+
+
+
