@@ -4,8 +4,8 @@ rabbitmq:
   username: test
   password: test
   queue:
-    send: string-readings
-    receive: string-commands
+    send: ${rabbitmq.username}-send
+    receive: ${rabbitmq.username}-receive
 
 
 
