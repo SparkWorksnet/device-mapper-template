@@ -1,10 +1,6 @@
 package net.sparkworks.mapper.configuration;
 
 import net.sparkworks.mapper.listener.ReceiverService;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -30,9 +26,6 @@ public class RabbitConfiguration {
     @Autowired
     ReceiverService receiverService;
     
-    @Autowired
-    AmqpAdmin amqpAdmin;
-    
     @Bean
     ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(rabbitServer);
@@ -41,23 +34,9 @@ public class RabbitConfiguration {
         connectionFactory.setPassword(rabbitPassword);
         return connectionFactory;
     }
-
-    @Bean
-    org.springframework.amqp.core.Queue queue() {
-        return new org.springframework.amqp.core.Queue(rabbitQueueReceive, false);
-    }
-
-    @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(rabbitQueueReceive);
-    }
     
     @Bean
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
-
-        Binding b = BindingBuilder.bind(queue()).to(exchange()).with("#");
-        amqpAdmin.declareBinding(b);
-
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(rabbitQueueReceive);

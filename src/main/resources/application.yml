@@ -5,7 +5,7 @@ rabbitmq:
   password: test
   queue:
     send: ${rabbitmq.username}-send
-    receive: ${rabbitmq.username}-receive
+    receive: ${rabbitmq.username}-commands
 
 
 
